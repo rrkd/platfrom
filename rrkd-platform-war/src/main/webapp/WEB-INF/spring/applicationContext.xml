@@ -11,8 +11,8 @@
 
 	<context:annotation-config />
 
-	<context:component-scan base-package="au.com.iglooit.rrkd.platform.service,
-	                                      au.com.iglooit.rrkd.platform.controller" />
+	<context:component-scan base-package="au.com.iglooit.rrkd.platform.service" />
+	<context:component-scan base-package="au.com.iglooit.rrkd.platform.controller" />
 
     <bean id="entityManagerFactory"
           class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean" lazy-init="true">
@@ -24,7 +24,5 @@
     </bean>
 
     <tx:annotation-driven />
-
-    <import resource="dispatch-servlet.xml" />
 
 </beans>

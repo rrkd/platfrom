@@ -1,4 +1,4 @@
-package au.com.iglooit.rrkd.platform.controller.version;
+package au.com.iglooit.rrkd.platform.controller.help;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 /**
  * Created with IntelliJ IDEA.
  * User: nicholas.zhu
- * Date: 5/04/2014
- * Time: 11:23 PM
+ * Date: 6/04/2014
+ * Time: 6:47 AM
  */
 @Controller
-public class VersionController {
-    @RequestMapping(value = "/version", method = RequestMethod.GET)
-    public String version(){
-        return "version";
+public class HelpController {
+    @RequestMapping(value = "/help", method = RequestMethod.GET)
+    public String help(){
+        return "help";
     }
 }

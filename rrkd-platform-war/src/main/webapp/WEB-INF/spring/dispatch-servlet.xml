@@ -3,12 +3,16 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-
-
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
+    <!-- This tag registers the DefaultAnnotationHandlerMapping and
+         AnnotationMethodHandlerAdapter beans that are required for Spring MVC  -->
     <mvc:annotation-driven/>
+
+    <!-- Exception Resolver that resolves exceptions through @ExceptionHandler methods -->
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver"/>
+
 
     <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
         <property name="order" value="1"/>
@@ -31,7 +35,7 @@
                         <bean class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
                             <property name="classesToBeBound">
                                 <list>
-                                    <value>com.mkyong.common.model.Fruit</value>
+                                    <value>au.com.iglooit.rrkd.core.Version</value>
                                 </list>
                             </property>
                         </bean>
@@ -59,5 +63,7 @@
 
     <!-- resources exclusions from servlet mapping -->
     <mvc:resources mapping="/assets/**" location="/WEB-INF/assets/"/>
+
+    <import resource="applicationContext.xml" />
 
 </beans>
