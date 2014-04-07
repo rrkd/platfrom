@@ -11,6 +11,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="rrkd">
     <meta name="author" content="">
+    <meta name="geo.placename" content="WC1B, london">
+    <meta name="geo.position" content="51.51954;-0.125549" />
+
 
     <title><decorator:title/></title>
 
@@ -23,7 +26,7 @@
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <link href="assets/perfect-scrollbar.css" rel="stylesheet" type="text/css"/>
+    <link href="assets/js/perfect-scrollbar-0.3.3/perfect-scrollbar.css" rel="stylesheet" type="text/css"/>
 
     <decorator:head/>
 </head>
@@ -35,7 +38,7 @@
     <script type="text/javascript" src="assets/js/jquery.js"></script>
     <script type="text/javascript" src="assets/js/jquery.mousewheel.js"></script>
     <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="assets/js/perfect-scrollbar.js"></script>
+    <script type="text/javascript" src="assets/js/perfect-scrollbar-0.3.3/perfect-scrollbar.js"></script>
     <script type="text/javascript" src="assets/js/global.js"></script>
 </body>
 </html>
