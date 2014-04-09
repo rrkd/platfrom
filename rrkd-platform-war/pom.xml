@@ -16,8 +16,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <wicket.version>1.5.7</wicket.version>
-        <gae.version>1.7.0</gae.version>
+        <gae.version>1.9.2</gae.version>
         <spring.version>3.1.0.RELEASE</spring.version>
         <gae.application.version>1.0</gae.application.version>
         <gae.port>8080</gae.port>
@@ -25,6 +24,13 @@
         <sitemesh-version>2.4.2</sitemesh-version>
         <jstl.version>1.2</jstl.version>
         <commons-logging>1.1.1</commons-logging>
+        <datanucleus.version>4.0.0-m1</datanucleus.version>
+        <!--
+          GAE home points to directory where GAE SDK is unpacked in local repository
+        -->
+        <gae.home>
+            ${settings.localRepository}/com/google/appengine/appengine-java-sdk/${gae.version}/appengine-java-sdk-${gae.version}
+        </gae.home>
     </properties>
 
     <profiles>
@@ -79,23 +85,36 @@
 
         <plugins>
             <!-- Maven GAE plugin -->
+            <!--<plugin>-->
+                <!--<groupId>net.kindleit</groupId>-->
+                <!--<artifactId>maven-gae-plugin</artifactId>-->
+                <!--<version>0.9.6</version>-->
+                <!--<dependencies>-->
+                    <!--<dependency>-->
+                        <!--<groupId>net.kindleit</groupId>-->
+                        <!--<artifactId>gae-runtime</artifactId>-->
+                        <!--<version>${gae.version}</version>-->
+                        <!--<type>pom</type>-->
+                    <!--</dependency>-->
+                    <!--<dependency>-->
+                        <!--<groupId>org.codehaus.plexus</groupId>-->
+                        <!--<artifactId>plexus-archiver</artifactId>-->
+                        <!--<version>1.2</version>-->
+                    <!--</dependency>-->
+                <!--</dependencies>-->
+            <!--</plugin>-->
             <plugin>
-                <groupId>net.kindleit</groupId>
-                <artifactId>maven-gae-plugin</artifactId>
-                <version>0.9.4</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>net.kindleit</groupId>
-                        <artifactId>gae-runtime</artifactId>
-                        <version>${gae.version}</version>
-                        <type>pom</type>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.codehaus.plexus</groupId>
-                        <artifactId>plexus-archiver</artifactId>
-                        <version>1.2</version>
-                    </dependency>
-                </dependencies>
+                <groupId>com.google.appengine</groupId>
+                <artifactId>appengine-maven-plugin</artifactId>
+                <version>${appengine.target.version}</version>
+                <configuration>
+                    <enableJarClasses>false</enableJarClasses>
+                    <jvmFlags>
+                        <jvmFlag>-Xdebug</jvmFlag>
+                        <jvmFlag>-Xrunjdwp:transport=dt_socket,address=8080,server=y,suspend=y</jvmFlag>
+                    </jvmFlags>
+                    <disableUpdateCheck>true</disableUpdateCheck>
+                </configuration>
             </plugin>
 
             <!-- Upload application to appspot automatically during release:perform -->
@@ -110,7 +129,15 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
+                <version>3.0</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.datanucleus</groupId>
+                        <artifactId>datanucleus-core</artifactId>
+                        <version>${datanucleus.version}</version>
+                        <scope>compile</scope>
+                    </dependency>
+                </dependencies>
                 <configuration>
                     <source>${jdk.version}</source>
                     <target>${jdk.version}</target>
@@ -120,10 +147,12 @@
             <!-- Maven Datanucleus Plugin -->
             <plugin>
                 <groupId>org.datanucleus</groupId>
-                <artifactId>maven-datanucleus-plugin</artifactId>
-                <version>3.0.2</version>
+                <artifactId>datanucleus-maven-plugin</artifactId>
+                <version>3.3.0-release</version>
                 <configuration>
-                    <log4jConfiguration>log4j.properties</log4jConfiguration>
+                    <api>JPA</api>
+                    <persistenceUnitName>transactions-optional</persistenceUnitName>
+                    <log4jConfiguration>src/main/resources/log4j.properties</log4jConfiguration>
                     <verbose>true</verbose>
                 </configuration>
                 <executions>
@@ -139,6 +168,11 @@
                         <groupId>javax.jdo</groupId>
                         <artifactId>jdo-api</artifactId>
                         <version>3.0.1</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.datanucleus</groupId>
+                        <artifactId>datanucleus-core</artifactId>
+                        <version>${datanucleus.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -169,26 +203,44 @@
         <dependency>
             <groupId>com.google.appengine.orm</groupId>
             <artifactId>datanucleus-appengine</artifactId>
-            <version>2.0.1.1</version>
+            <version>2.1.2</version>
         </dependency>
 
         <!-- Datanucleus -->
         <dependency>
             <groupId>org.datanucleus</groupId>
             <artifactId>datanucleus-api-jdo</artifactId>
-            <version>3.0.8</version>
+            <version>4.0.0-m1</version>
         </dependency>
         <dependency>
             <groupId>org.datanucleus</groupId>
             <artifactId>datanucleus-api-jpa</artifactId>
-            <version>3.0.11</version>
+            <version>4.0.0-m1</version>
         </dependency>
         <dependency>
             <groupId>org.datanucleus</groupId>
             <artifactId>datanucleus-core</artifactId>
-            <version>3.0.11</version>
+            <version>4.0.0-m1</version>
             <scope>runtime</scope>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.datanucleus</groupId>-->
+            <!--<artifactId>datanucleus-core</artifactId>-->
+            <!--<version>3.2.8</version>-->
+            <!--<scope>runtime</scope>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.datanucleus</groupId>-->
+            <!--<artifactId>datanucleus-api-jpa</artifactId>-->
+            <!--<version>3.2.8</version>-->
+            <!--<scope>runtime</scope>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.datanucleus</groupId>-->
+            <!--<artifactId>datanucleus-accessplatform-jpa-rdbms</artifactId>-->
+            <!--<version>3.2.8</version>-->
+            <!--<type>pom</type>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>com.google.appengine</groupId>
             <artifactId>appengine-api-1.0-sdk</artifactId>
@@ -318,6 +370,11 @@
             <groupId>javax.jdo</groupId>
             <artifactId>jdo-api</artifactId>
             <version>3.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>javax.persistence</artifactId>
+            <version>2.1.0</version>
         </dependency>
         <dependency>
             <groupId>commons-collections</groupId>
